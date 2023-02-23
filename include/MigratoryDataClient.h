@@ -118,6 +118,27 @@ namespace migratorydata
 		 */
 		const std::string TRANSPORT_WEBSOCKET;
 
+       /**
+        * A constant which indicates that the client was authorized to connect using the entitlement token defined on the client side.
+        *
+        * NOTE: This notification applies when using a `Custom` authorization extension built with the
+        * MigratoryData Authorization Extension API version 2 or later. For the entitlement methods `None`, `Basic`,
+        * or `Custom` authorization extension built with the previous version of the MigratoryData Authorization Extension API,
+        * this notification is always sent no matter the entitlement token is valid or not, the verification of the entitlement
+        * token being made only during subscribe and publish operations.
+        */
+		const std::string NOTIFY_CONNECT_OK;
+		
+	   /**
+        * A constant which indicates that the client was denied to connect using the entitlement token defined on the client side.
+        *
+        * NOTE: This notification applies when using a `Custom` authorization extension built with the
+        * MigratoryData Authorization Extension API version 2 or later. For the entitlement methods `None`, `Basic`,
+        * or `Custom` authorization extension built with the previous version of the MigratoryData Authorization Extension API,
+        * this notification is never sent no matter the entitlement token is valid or not, the verification of the entitlement
+        * token being made only during subscribe and publish operations.
+        */
+		const std::string NOTIFY_CONNECT_DENY;
 
 		/**
 		* \brief Create a MigratoryDataClient object.
@@ -288,16 +309,16 @@ namespace migratorydata
 		 */
 		void publish(MigratoryDataMessage& message);
 
-		/**
-		 * Assign an entitlement token to the client.
-		 *
-		 * To define which users of your application have access to which subjects, you will first have to configure the
-		 * parameter ```Entitlement```, see the <em>Configuration Guide</em>. If you set this parameter on
-		 * \c Custom, then you can use the <em>MigratoryData Extension SDK for Entitlement</em> to build an extension plugin
-		 * for the MigratoryData server to allow or deny certain users to subscribe to or publish on certain subjects.
-		 *
-		 * \param token  a string representing an entitlement token
-		 */
+       /**
+        * Assign an entitlement token to the client or update its entitlement token.
+        * 
+        * To define which users of your application are entitled to subscribe to which subjects and/or to publish messages
+        * for which subjects, you will first have to configure an entitlement method using the parameter \c Entitlement of
+        * the MigratoryData server. Please refer to the documentation of the \c Entitlement parameter in the
+        * <em>Configuration Guide</em> to learn how to configure an entitlement method.
+        *
+        * \param token   an entitlement token.
+        */
 		void setEntitlementToken(std::string& token);
 
 		/**
